@@ -33,6 +33,10 @@ jobs:
           test -s _site/CNAME
           test -s _site/research/01-a-question-made-visible/index.html
           test -s _site/research/02-a-different-view/index.html
+      - name: Check versioned styles and script loading
+        run: python3 scripts/check-assets.py _site
+      - name: Check crawler files and research metadata
+        run: python3 scripts/check-discovery.py _site
       - uses: actions/upload-artifact@v4
         with:
           name: jekyll-site-preview

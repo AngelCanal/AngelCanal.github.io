@@ -2,7 +2,7 @@
 
 Personal research website for **Ángel Canal-Alonso**, built with Jekyll for GitHub Pages.
 
-Repository: [AngelCanal/AngelCanal.github.io](https://github.com/AngelCanal/AngelCanal.github.io). The current revision uses the review branch `codex/observatory-kuramoto` and [pull request #2](https://github.com/AngelCanal/AngelCanal.github.io/pull/2). Review it before merging into `main` and configuring publication.
+Repository: [AngelCanal/AngelCanal.github.io](https://github.com/AngelCanal/AngelCanal.github.io). Review changes in a pull request before merging into `main`. GitHub Pages publishes the configured source after a successful deployment.
 
 The homepage organizes research around where, when and how to stimulate neural circuits in epilepsy. Seven studies appear in the research landscape; the publication list contains eight entries, including supporting work on implantable devices. Metadata was checked against the supplied Scholar export and publisher or institutional records. Contact is through LinkedIn. The About text is reserved for a later revision.
 
@@ -80,6 +80,51 @@ This development-only exporter requires Node.js and Python with PyYAML. It reuse
 The workflow in `.github/workflows/check.yml` runs on pull requests, pushes to `main`, and manual dispatch. It first checks the numerical model, builds the site using the GitHub Pages Jekyll environment, checks key generated files, and uploads a `jekyll-site-preview` artifact. It does not deploy the website.
 
 Open the pull request's **Checks** tab or the repository's **Actions** tab for the current result. A successful run verifies that the committed source builds and passes the output checks. Review the generated site in a browser as well to assess the layout and interactions. The standalone preview supports design review; the workflow checks the actual publishing source.
+
+### Asset versions and Figure 1
+
+Stylesheets and scripts use a shared `?v=` value from [GitHub's build revision](https://jekyll.github.io/github-metadata/site.github/), with [Jekyll's build time](https://jekyllrb.com/docs/variables/#site-variables) as the fallback for local builds. A new release therefore requests new asset URLs automatically. This prevents updated HTML from reusing the old stylesheet and script URLs after deployment; no manual version bump is needed.
+
+This fixes a reproduced failure where the original script expected the removed `#form-control` slider, threw before showing the current controls, and left Figure 1's static fallback visible. The self-contained design preview embeds its styles and scripts, so it did not encounter that mismatch. The Kuramoto model and interaction code are unchanged.
+
+The build check runs `python3 scripts/check-assets.py _site` against every generated HTML page. It verifies that all local styles and scripts share a nonempty build version, that the referenced files exist, and that the deferred scripts retain their dependency order: Kuramoto model, figure controls, then research landscape. If an already-open tab still shows an old page after deployment, reload the page; a hard refresh can also clear an earlier unversioned cache entry.
+
+### Crawling and machine-readable content
+
+The public site provides these files:
+
+| URL | Purpose and source |
+| --- | --- |
+| `/robots.txt` | Allows crawling and advertises the canonical sitemap. Built from `robots.txt`. |
+| `/sitemap.xml` | Lists public HTML pages and published output collections with absolute canonical URLs. Built by a small Liquid template, without an extra plugin. |
+| `/llms.txt` | A concise Markdown guide to the portfolio, its research and authoritative profile links. |
+| `/index.md` | A readable Markdown version of the homepage's research content and selected bibliography. Built from `index.md.txt`. |
+| `/llms-full.txt` | An optional plain-text companion with the same expanded content as `/index.md`. |
+
+The two expanded versions share `_includes/research-summary.md`, which reads the existing profile, landscape and publication data. Adding or correcting a publication in `_data/publications.yml` updates the HTML bibliography and these text versions on the next build. The research grouping comes from `_data/landscape.yml`, including TSG-DDT under How and Where as work in progress. The files contain the portfolio's summaries and citation links, not copies of external papers.
+
+The `.txt` source extension and `layout: null` keep Jekyll from wrapping these files in HTML. The explicit permalink on `index.md.txt` serves it at `/index.md`. The homepage advertises its Markdown alternative and includes `ProfilePage`/`Person` JSON-LD from the existing public profile fields. Every HTML page links to `/llms.txt` using `rel="describedby"`. Research-summary pages use their own summary for their description metadata.
+
+The crawl policy is intentionally simple:
+
+```text
+User-agent: *
+Allow: /
+
+Sitemap: https://acanal.me/sitemap.xml
+```
+
+This policy leaves public pages and their CSS, JavaScript and figures crawlable. It does not introduce a separate opt-out for training crawlers. `robots.txt` guides cooperative crawlers; it does not protect private information. The `design/` exclusion and unpublished notes remain absent from the public build. The 404 page has a `noindex, follow` directive. The sitemap excludes those pages and the machine-readable alternatives; exclusion from a sitemap alone does not block indexing. Sitemap dates are emitted only when an explicit `last_modified_at` is supplied, never just because the site rebuilt.
+
+`llms.txt` follows the [community proposal](https://llmstxt.org/). Its expanded companion is optional. These files provide accessible context, without promising that an AI service will use them or that search rankings will change. [Google's AI search guidance](https://developers.google.com/search/docs/appearance/ai-features) continues to emphasize ordinary crawlability, indexing and accurate content. Crawler rules and discovery are separate from content licensing.
+
+After a local Jekyll build, the same output check used by GitHub Actions can be run with:
+
+```bash
+python scripts/check-discovery.py _site
+```
+
+For search monitoring after deployment, submit `https://acanal.me/sitemap.xml` in the site's verified Google Search Console property. A sitemap helps discovery; it does not guarantee indexing. [Sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
 
 ## Edit the content
 
