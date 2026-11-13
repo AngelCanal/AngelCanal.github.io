@@ -45,17 +45,8 @@ layout: default
 </section>
 
 <section class="research-section section wrap" id="research" aria-labelledby="research-title">
-  <div class="section-heading"><div><p class="eyebrow">01 / Selected studies</p><h2 id="research-title">Research</h2></div><p class="section-deck">My work on neural activity, computational models, and stimulation for epilepsy.</p></div>
+  <div class="section-heading"><div><p class="eyebrow">01 / Three questions</p><h2 id="research-title">Research</h2></div><p class="section-deck">Where, when and how to stimulate. Three connected questions for neuromodulation in epilepsy.</p></div>
   {% include research-landscape.html %}
-  <div class="project-list">
-    {% assign projects = site.projects | sort: 'order' %}
-    {% for project in projects %}
-    <article class="project-row" data-landscape-paper="{{ project.landscape_id }}">
-      <a class="project-visual" href="{{ project.url | relative_url }}" aria-label="Explore {{ project.title | escape }}"><svg class="project-drawing" data-drawing="{{ project.figure }}" viewBox="0 0 540 340" role="img" aria-label="{{ project.figure_alt | escape }}"><path d="M30 170 Q150 60 270 170 T510 170" fill="none" stroke="currentColor"/></svg><span class="visual-caption">{{ project.figure_label | escape }}</span></a>
-      <div class="project-copy"><p class="eyebrow">{{ project.kicker | escape }}{% if project.example %}<span class="example-tag">Example</span>{% endif %}</p><h3><a href="{{ project.url | relative_url }}">{{ project.title | escape }}</a></h3><p>{{ project.summary | escape }}</p><a class="text-link" href="{{ project.url | relative_url }}">Explore this study <span aria-hidden="true">↗</span></a></div>
-    </article>
-    {% endfor %}
-  </div>
 </section>
 
 <section class="publications-section section wrap" id="publications" aria-labelledby="publications-title">
@@ -63,7 +54,7 @@ layout: default
   {% if site.data.publications.size > 0 %}
   <ol class="publications">
     {% for paper in site.data.publications %}
-    <li class="publication" id="paper-{{ paper.id }}" data-landscape-paper="{{ paper.id }}"><span class="publication-year">{{ paper.year }}</span><div><h3>{{ paper.title | escape }}</h3><p>{{ paper.authors | escape }}</p><p class="publication-venue">{{ paper.venue | escape }}</p>{% if paper.summary %}<p>{{ paper.summary | escape }}</p>{% endif %}<div class="publication-links">{% if paper.paper and paper.paper != '' %}<a href="{{ paper.paper | escape }}">Paper ↗</a>{% endif %}{% if paper.code and paper.code != '' %}<a href="{{ paper.code | escape }}">Code ↗</a>{% endif %}{% if paper.data and paper.data != '' %}<a href="{{ paper.data | escape }}">Data ↗</a>{% endif %}</div></div></li>
+    <li class="publication" id="paper-{{ paper.id }}" data-landscape-paper="{{ paper.id }}"><span class="publication-year">{{ paper.year }}</span><div><h3>{{ paper.title | escape }}</h3><p>{{ paper.authors | escape }}</p><p class="publication-venue">{% if paper.publication_type %}{{ paper.publication_type | escape }} · {% endif %}{{ paper.venue | escape }}</p>{% if paper.summary %}<p>{{ paper.summary | escape }}</p>{% endif %}<div class="publication-links">{% if paper.paper and paper.paper != '' %}<a href="{{ paper.paper | escape }}">{{ paper.link_label | default: 'Paper' | escape }} ↗</a>{% endif %}{% if paper.code and paper.code != '' %}<a href="{{ paper.code | escape }}">Code ↗</a>{% endif %}{% if paper.data and paper.data != '' %}<a href="{{ paper.data | escape }}">Data ↗</a>{% endif %}</div>{% if paper.link_note %}<p class="publication-link-note">{{ paper.link_note | escape }}</p>{% endif %}</div></li>
     {% endfor %}
   </ol>
   {% else %}
@@ -82,5 +73,5 @@ layout: default
   <div class="about-copy"><h2 id="about-title">About me</h2><p>{{ site.data.profile.about | escape }}</p><p class="content-note">{{ site.data.profile.about_note | escape }}</p><div class="about-links">{% if site.data.profile.cv != '' %}<a class="text-link" href="{{ site.data.profile.cv | relative_url }}">Download CV ↓</a>{% endif %}<a class="text-link" href="{{ site.data.profile.institutional_profile | escape }}">University profile ↗</a>{% if site.data.profile.orcid != '' %}<a class="text-link" href="{{ site.data.profile.orcid | escape }}">ORCID ↗</a>{% endif %}</div></div>
 </section>
 
-<section class="contact-section wrap" id="contact" aria-labelledby="contact-title"><p class="eyebrow">05 / {% if site.data.profile.email != '' %}Contact{% else %}Profiles{% endif %}</p><h2 id="contact-title">{% if site.data.profile.email != '' %}Get in touch{% else %}Find me online{% endif %}</h2><div class="contact-bottom">{% if site.data.profile.email != '' %}<a class="contact-link" href="mailto:{{ site.data.profile.email | escape }}">{{ site.data.profile.email | escape }} <span aria-hidden="true">↗</span></a>{% else %}<a class="contact-link" href="{{ site.data.profile.scholar | escape }}">Google Scholar <span aria-hidden="true">↗</span></a>{% endif %}<a class="text-link" href="{{ site.data.profile.github | escape }}">GitHub ↗</a></div></section>
+<section class="contact-section wrap" id="contact" aria-labelledby="contact-title"><p class="eyebrow">05 / Contact</p><h2 id="contact-title">Get in touch</h2><div class="contact-bottom"><a class="contact-link" href="{{ site.data.profile.linkedin | escape }}">Contact me on LinkedIn <span aria-hidden="true">↗</span></a><div class="contact-profiles"><a class="text-link" href="{{ site.data.profile.scholar | escape }}">Google Scholar ↗</a><a class="text-link" href="{{ site.data.profile.github | escape }}">GitHub ↗</a></div></div></section>
 

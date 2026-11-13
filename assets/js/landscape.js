@@ -111,11 +111,13 @@
     catch (_) { return; }
     const markerElements = [...root.querySelectorAll('[data-landscape-marker]')];
     if (!markerElements.length) return;
-    const surface = createSurface(config.papers);
+    const displayedPapers = Object.fromEntries(markerElements.map(element => [element.dataset.landscapeMarker, config.papers[element.dataset.landscapeMarker]]));
+    const surface = createSurface(displayedPapers);
     const nodes = new Map(surface.nodes.map(node => [node.id, node]));
     const markers = markerElements.map(element => ({element, label: element.querySelector('.landscape-marker-label'), node: nodes.get(element.dataset.landscapeMarker)}));
-    const details = [...root.querySelectorAll('[data-landscape-detail]')];
+    const details = [...root.querySelectorAll('[data-landscape-detail], [data-landscape-region-detail]')];
     const regions = [...root.querySelectorAll('[data-landscape-region]')];
+    const regionLinks = [...root.querySelectorAll('[data-landscape-region-select]')];
     const resetButton = root.querySelector('[data-landscape-reset]');
     const status = root.querySelector('[data-landscape-status]');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -124,7 +126,9 @@
     let camera = {...baseCamera};
     let target = {...baseCamera};
     let pointer = {x: 0, y: 0};
-    let activeId = markers[0].node.id;
+    const initialId = nodes.has(config.initial_paper) ? config.initial_paper : markers[0].node.id;
+    let activeId = initialId;
+    let activeRegion = nodes.get(initialId).region;
     let width = 900, height = 600;
     let paused = document.body.dataset.motion === 'paused';
     let inView = false, entered = false;
@@ -171,7 +175,7 @@
       const faces = surface.faces.map(face => ({face, depth: project(face).depth})).sort((a, b) => a.depth - b.depth);
       for (const {face} of faces) {
         const points = face.indices.map(index => projected[index]);
-        const focus = Math.exp(-((face.x - active.x) ** 2 + (face.z - active.z) ** 2) / .52);
+        const focus = active ? Math.exp(-((face.x - active.x) ** 2 + (face.z - active.z) ** 2) / .52) : 0;
         const altitude = clamp((face.y + .95) / 1.75, 0, 1);
         const red = Math.round(17 + face.light * 15 + altitude * 8 + focus * 5);
         const green = Math.round(24 + face.light * 20 + altitude * 8 + focus * 8);
@@ -188,10 +192,12 @@
     }
 
     function drawConnections() {
+      if (!activeId) return;
       ctx.setLineDash([2, 5]);
       config.connections.forEach(connection => {
         if (connection.a !== activeId && connection.b !== activeId) return;
         const a = nodes.get(connection.a), b = nodes.get(connection.b);
+        if (!a || !b) return;
         const points = [];
         for (let index = 0; index <= 44; index++) {
           const amount = index / 44;
@@ -199,7 +205,7 @@
           const arch = mix(a.y, b.y, amount) + Math.sin(Math.PI * amount) * .62 + .04;
           points.push(project({x, y: Math.max(surface.heightAt(x, z) + .035, arch), z}));
         }
-        stroke(points, connection.a === 'vns' || connection.b === 'vns' ? 'rgba(198,173,145,.36)' : 'rgba(208,228,176,.42)', .85);
+        stroke(points, a.region !== b.region ? 'rgba(198,173,145,.46)' : 'rgba(208,228,176,.42)', .85);
       });
       ctx.setLineDash([]);
       const node = nodes.get(activeId);
@@ -216,7 +222,7 @@
       const occupied = [];
       const regionBoxes = [];
       const points = new Map(markers.map(marker => [marker.node.id, project(marker.node)]));
-      const ordered = [...markers].sort((a, b) => Number(b.node.id === activeId) - Number(a.node.id === activeId) || Number(Boolean(a.node.secondary)) - Number(Boolean(b.node.secondary)));
+      const ordered = [...markers].sort((a, b) => Number(b.node.id === activeId) - Number(a.node.id === activeId));
       const leaders = [];
       // Adapt to the terrain's own width, including narrow columns on tablets.
       stage.classList.toggle('is-compact', width < 550);
@@ -311,7 +317,7 @@
     }
     function targetCamera() {
       if (motionOff()) return;
-      const node = nodes.get(activeId);
+      const node = activeId ? nodes.get(activeId) : config.regions[activeRegion];
       target = {
         yaw: baseCamera.yaw + node.x * .015 + pointer.x * .07,
         elevation: baseCamera.elevation + node.z * .012 + pointer.y * .04,
@@ -319,11 +325,21 @@
         panY: -node.z * .015
       };
     }
+    function updateRegionLinks() {
+      root.dataset.landscapeRegion = activeRegion;
+      regionLinks.forEach(link => {
+        const active = link.dataset.landscapeRegionSelect === activeRegion;
+        link.classList.toggle('is-active', active);
+        if (active) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    }
     function selectPaper(id, source = 'external') {
       if (!nodes.has(id) || !markers.some(marker => marker.node.id === id)) return;
       if ((source === 'hover' || source === 'scroll') && details.some(detail => detail.contains(document.activeElement))) return;
       const changed = id !== activeId;
       activeId = id;
+      activeRegion = nodes.get(id).region;
       root.dataset.landscapeActive = id;
       if (source === 'activate' || source === 'focus' || source === 'hover') lastManualSelection = performance.now();
       markers.forEach(marker => {
@@ -337,9 +353,33 @@
         detail.hidden = !active;
         detail.classList.toggle('is-active', active);
       });
+      updateRegionLinks();
       if (source === 'activate' && changed) status.textContent = `Selected study: ${nodes.get(id).label}. Details follow the research map.`;
       targetCamera();
       requestDraw(changed);
+    }
+    function selectRegion(id) {
+      const region = config.regions[id];
+      if (!region) return;
+      if (region.entry) { selectPaper(region.entry, 'activate'); return; }
+      // A research direction has its own panel, never a fabricated paper or well.
+      activeId = null;
+      activeRegion = id;
+      root.dataset.landscapeActive = '';
+      lastManualSelection = performance.now();
+      markers.forEach(marker => {
+        marker.element.classList.remove('is-active');
+        marker.element.removeAttribute('aria-current');
+      });
+      details.forEach(detail => {
+        const active = detail.dataset.landscapeRegionDetail === id;
+        detail.hidden = !active;
+        detail.classList.toggle('is-active', active);
+      });
+      updateRegionLinks();
+      status.textContent = `${region.label}. ${region.status}. Research direction details follow the map.`;
+      targetCamera();
+      requestDraw();
     }
     function resize() {
       const box = stage.getBoundingClientRect();
@@ -375,9 +415,15 @@
       // The link just used is in the panel being hidden. Keep focus on a visible control.
       markers.find(marker => marker.node.id === id).element.focus({preventScroll: true});
     }));
+    regionLinks.forEach(element => element.addEventListener('click', event => {
+      event.preventDefault();
+      const fromPanel = element.closest('[data-landscape-region-detail]');
+      selectRegion(element.dataset.landscapeRegionSelect);
+      if (fromPanel && fromPanel.hidden && activeId) markers.find(marker => marker.node.id === activeId).element.focus({preventScroll: true});
+    }));
     resetButton.addEventListener('click', () => {
       pointer = {x: 0, y: 0};
-      selectPaper(markers[0].node.id, 'activate');
+      selectPaper(initialId, 'activate');
       target = {...baseCamera};
       if (motionOff()) camera = {...target};
       requestDraw();
@@ -407,7 +453,8 @@
     document.addEventListener('acanal:motion', updateMotion);
     reducedMotion.addEventListener('change', updateMotion);
     document.addEventListener('acanal:landscape-select', event => {
-      if (event.detail && typeof event.detail.id === 'string') selectPaper(event.detail.id);
+      if (event.detail && typeof event.detail.region === 'string') selectRegion(event.detail.region);
+      else if (event.detail && typeof event.detail.id === 'string') selectPaper(event.detail.id);
     });
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) cancelFrame();

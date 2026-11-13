@@ -2,9 +2,9 @@
 
 Personal research website for **Ángel Canal-Alonso**, built with Jekyll for GitHub Pages.
 
-Repository: [AngelCanal/AngelCanal.github.io](https://github.com/AngelCanal/AngelCanal.github.io). The initial delivery uses the review branch `codex/research-portfolio`. Review its pull request before merging the website into `main` and configuring publication.
+Repository: [AngelCanal/AngelCanal.github.io](https://github.com/AngelCanal/AngelCanal.github.io). The current revision uses the review branch `codex/observatory-kuramoto` and [pull request #2](https://github.com/AngelCanal/AngelCanal.github.io/pull/2). Review it before merging into `main` and configuring publication.
 
-The site contains three research summaries and five selected published papers, checked against the supplied Scholar export, the University of Glasgow profile, and article records. The biography and summaries are drafts for review. Public email and CV links are still awaiting your preference.
+The homepage organizes research around where, when and how to stimulate neural circuits in epilepsy. Seven studies appear in the research landscape; the publication list contains eight entries, including supporting work on implantable devices. Metadata was checked against the supplied Scholar export and publisher or institutional records. Contact is through LinkedIn. The About text is reserved for a later revision.
 
 ## Review the website
 
@@ -20,13 +20,21 @@ show_notes: false
 design: manuscript
 ```
 
-`demo_mode: false` keeps the draft banner out of the public Jekyll build. The standalone preview adds its own design-review banner and `noindex` tag. Its embedded article dialogs also belong only to that preview; the public site opens ordinary research pages. The `design` directory remains excluded from publishing. The banner setting does not control access or privacy.
+`demo_mode: false` keeps the draft banner out of the public Jekyll build. The standalone preview adds its own design-review banner and `noindex` tag. The preview uses the same direct paper links as the public site. The `design` directory remains excluded from publishing. The banner setting does not control access or privacy.
 
 ### Observatory, selected
 
 The selected direction retains the dark Observatory palette and editorial layout. On desktops wider than 900px and taller than 810px, Figure 1 remains alongside a compact reading sequence. Three short steps introduce the signals, their reconstruction, and the stimulation interaction. The primary hero link leads straight to Publications; visitors can also go directly to Research. The three stage buttons work directly. Compact or shorter layouts keep the figure in normal page flow.
 
-The paper terrain has five basins. Introductory guidance explains that its regions group related research questions. Each region names a concrete question, and each connection states the shared subject. Selecting a marker reveals the full citation, a short account of the study, and related questions. Paper links are ordinary HTML. The map is an authored navigation device; distance, height and basin depth are not measurements of similarity, scientific merit or clinical effectiveness.
+The research terrain has seven paper basins organized around three questions:
+
+| Question | Studies |
+| --- | --- |
+| Where to stimulate | Work in progress, shown as a research direction without a publication marker or invented citation. |
+| When to stimulate | PLOS ONE segmentation, bidirectional-pass interictal-event detection with David García-Retuerta, and Transformer encoder seizure prediction with Marco Hernández Pérez. |
+| How to stimulate | CA3 temporal dynamics and biohybrid restoration with Davide Caron, reservoir-generated stimulation in Brain Stimulation, and TSG-DDT synthetic time-series generation. |
+
+Each connection states the shared subject or method. Selecting a marker reveals the citation, study summary, and related work. The landscape supplies the homepage's research highlights, followed directly by the publication list. Paper links are ordinary HTML. Distance, height and basin depth are not measurements of similarity, scientific merit or clinical effectiveness.
 
 ### Figure 1: scientific construction
 
@@ -94,15 +102,15 @@ Open the pull request's **Checks** tab or the repository's **Actions** tab for t
 
 Everyday updates belong in the YAML data and Markdown pages. You do not need to edit animation code to add a paper.
 
-### Biography, email, and CV
+### Biography, contact, and CV
 
-The current introduction paraphrases the official [University of Glasgow profile](https://www.gla.ac.uk/pgrs/angelcanalalonso/). The biography uses first-person wording and facts already verified in that profile. A research-question aside replaces the oversized monogram. Personal history and a portrait still need user-provided content. The Scholar, ORCID, GitHub, and university-profile links are populated.
+The introduction follows the research framing supplied by Ángel: where, when and how to stimulate, using dynamical systems, modelling and reservoir computing for implantable devices. The About text retains the earlier draft based on the official [University of Glasgow profile](https://www.gla.ac.uk/pgrs/angelcanalalonso/); it will be revised separately. No photograph is planned at this stage. The LinkedIn, Scholar, ORCID, GitHub, and university-profile links are populated.
 
-`email` and `cv` are deliberately empty and their links stay hidden. Until an email is supplied, navigation says Profiles and the final section says Find me online. Enter your preferred public email to switch those labels to Contact and Get in touch and show a mailto link. For a CV, add the PDF to an assets folder, then set `cv` to its path. Owning `acanal.me` does not create an email mailbox; an address at that domain requires an email service or forwarding setup.
+Contact uses `linkedin` in `_data/profile.yml`, currently `https://linkedin.com/in/angel-canal`. No email address or mailto link is published. The `cv` field remains empty, which hides its link. If a CV is added later, place the PDF in an assets folder and set `cv` to its path.
 
 ### Publications and project pages
 
-The publication list is a selection, not a complete bibliography. It uses the published **2026 Brain Stimulation article**, without duplicating its SSRN preprint. Publisher metadata takes precedence where imported Scholar or institutional metadata differs; source comments record the author-list checks. Data links are included for the reservoir-computing and time-series-segmentation papers.
+The publication list is a selection, not a complete bibliography. It uses the published **2026 Brain Stimulation article**, without duplicating its SSRN preprint. Publisher metadata takes precedence where imported Scholar or institutional metadata differs; source comments record the author-list checks. Data links are included for the reservoir-computing and time-series-segmentation papers. The two Transformer contributions are labelled conference abstracts. The seizure-prediction abstract's DOI identifies the CNS*2023 meeting collection, published in 2024; its entry identifies abstract P29. The Retuerta chapter uses Springer's citation year, 2021, while its venue retains PACBB 2020.
 
 To add a publication, copy an entry in `_data/publications.yml` and preserve these fields:
 
@@ -118,9 +126,9 @@ code: ""
 data: ""
 ```
 
-Entries are displayed in file order. Give each paper a unique `id`; add a matching entry in `_data/landscape.yml` if it should appear on the terrain. Optional `landscape_id` front matter on a project links its scroll position to a paper marker. Leave unavailable links empty. YAML uses indentation, so keep spaces aligned and quote text containing a colon.
+Entries are displayed in file order. Give each paper a unique `id`; add a matching entry in `_data/landscape.yml` if it should appear on the terrain. Optional `publication_type`, `link_label` and `link_note` fields distinguish a conference abstract or a collection link. Leave unavailable links empty. YAML uses indentation, so keep spaces aligned and quote text containing a colon.
 
-For another project, copy a Markdown file in `_projects/`, replace its front matter and body, and set its `order`. Front matter is the YAML block between the two `---` lines. Keep the fields used by the existing pages. Explain the question and approach, then link to the work. Distinguish conceptual illustrations from research data.
+Existing `_projects/` pages remain available at their URLs. Their repeated highlight rows have been removed from the homepage. For another project page, copy a Markdown file in `_projects/`, replace its front matter and body, and set its `order`. Front matter is the YAML block between the two `---` lines. Explain the question and approach, then link to the work. Distinguish conceptual illustrations from research data.
 
 ### Optional notes
 
@@ -209,4 +217,4 @@ The included `Gemfile` uses the GitHub Pages dependencies and `webrick`. The off
 
 Research sources are linked in the project pages and recorded in comments beside the publication entries. The official GitHub documentation above was checked on **2026-11-13**.
 
-The remaining personal choices are biography wording, public email, CV, and whether to publish notes. Observatory, the Kuramoto generator, and the selected papers have been chosen. Registrar-specific DNS instructions can be tailored once the provider is known.
+The remaining personal choices are biography wording, CV, and whether to publish notes. Contact through LinkedIn, the Observatory design, the Kuramoto generator, and the where/when/how research structure have been chosen. Registrar-specific DNS instructions can be tailored once the provider is known.

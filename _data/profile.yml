@@ -9,15 +9,15 @@ name: "Ángel Canal-Alonso"
 given_name: "Ángel"
 family_name: "Canal-Alonso"
 role: "Postgraduate researcher · University of Glasgow"
-intro: "I study biomimetic neuromodulation, exploring how the timing of brain activity can inform stimulation for epilepsy."
+intro: "My research asks where, when and how to stimulate neural circuits in epilepsy. I approach these questions with dynamical systems, modelling and reservoir computing for implantable devices."
 about: "I'm a postgraduate researcher in the Microelectronics Lab at the University of Glasgow. I use computational models to generate brain-inspired signals for neuromodulation, and study how their timing can inform stimulation for epilepsy."
 about_note: "My work connects computational models with in vitro experiments. I also work on bioactive, adaptive coatings for neural probes, looking at the materials between a device and living tissue."
 research_question: "How can the timing of neural activity inform stimulation for epilepsy?"
 institutional_profile: "https://www.gla.ac.uk/pgrs/angelcanalalonso/"
 github: "https://github.com/AngelCanal"
-# No public email or CV is selected yet. Empty values hide these links.
+linkedin: "https://linkedin.com/in/angel-canal"
+# Contact is through LinkedIn. No email address is published.
 # Add the actual CV file before setting its path.
-email: ""
 cv: ""
 scholar: "https://scholar.google.es/citations?user=1Ms-s3IAAAAJ&hl=es"
 orcid: "https://orcid.org/0000-0002-4254-5944"

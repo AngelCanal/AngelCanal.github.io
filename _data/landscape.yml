@@ -1,93 +1,137 @@
 # An authored navigation map. Coordinates, height and proximity are not measurements.
-# Publication metadata lives only in publications.yml; these keys refer to paper.id.
+# Publication metadata lives only in publications.yml; paper keys refer to paper.id.
+# WHERE is a research direction, not a publication or a fitted terrain minimum.
+initial_paper: reservoir
+
 regions:
-  reading:
-    label: "Reading neural activity"
-    short_label: "Reading"
-    question: "How can epileptiform events be identified?"
-    x: -2.1
-    z: -1.65
-    fallback_x: 16.89
-    fallback_y: 25.32
-  recreating:
-    label: "Recreating neural dynamics"
-    short_label: "Recreating"
-    question: "How can neural timing be reproduced?"
-    x: 0.1
+  where:
+    label: "Where to stimulate"
+    short_label: "Where"
+    question: "Choosing stimulation targets through dynamical systems and modelling."
+    status: "Work in progress"
+    detail_title: "Where can stimulation influence neural dynamics?"
+    detail: "An open research direction: using dynamical systems and models of neural activity to investigate stimulation targets. This work is in progress."
+    x: -1.5
     z: -1.85
-    fallback_x: 41.34
-    fallback_y: 17.74
-  influencing:
-    label: "Influencing neural activity"
-    short_label: "Influencing"
-    question: "How can neural activity be changed?"
-    x: 2.25
-    z: 0.8
-    fallback_x: 79.98
-    fallback_y: 29.43
+    fallback_x: 23.33
+    fallback_y: 19.57
+  when:
+    label: "When to stimulate"
+    short_label: "When"
+    question: "Event detection and seizure prediction from neural time series."
+    entry: segmentation
+    x: -2.5
+    z: 0.75
+    fallback_x: 21.42
+    fallback_y: 60.81
+  how:
+    label: "How to stimulate"
+    short_label: "How"
+    question: "Biohybrid loops, stimulation patterns and synthetic neural time series."
+    entry: reservoir
+    x: 2.45
+    z: -0.6
+    fallback_x: 71.83
+    fallback_y: 13.68
 
 papers:
-  reservoir:
-    label: "Brain-inspired stimulation"
-    region: recreating
-    x: 0.15
-    z: -0.9
-    depth: 0.92
-    width: 0.46
-    label_dx: 5
-    label_dy: -27
-    fallback_x: 46.92
-    fallback_y: 42.61
   segmentation:
-    label: "Finding epileptiform events"
-    region: reading
-    x: -1.85
-    z: -0.55
+    number: 1
+    label: "Time-series segmentation"
+    region: when
+    x: -1.9
+    z: 0.95
     depth: 0.83
-    width: 0.43
-    label_dx: -12
+    width: 0.36
+    label_dx: -20
+    label_dy: 45
+    fallback_x: 32.26
+    fallback_y: 74.75
+  bidirectional:
+    number: 2
+    label: "Bidirectional-pass detection"
+    region: when
+    x: -1.9
+    z: -0.45
+    depth: 0.78
+    width: 0.35
+    label_dx: -25
     label_dy: -30
-    fallback_x: 26.30
-    fallback_y: 55.80
+    fallback_x: 25.99
+    fallback_y: 56.59
+  transformer-mea:
+    number: 3
+    label: "Transformer encoder prediction"
+    region: when
+    x: -0.6
+    z: -0.6
+    depth: 0.83
+    width: 0.34
+    label_dx: -25
+    label_dy: -30
+    fallback_x: 40.34
+    fallback_y: 48.04
+  ca3:
+    number: 4
+    label: "CA3-inspired stimulation"
+    region: how
+    x: 1.65
+    z: 1.5
+    depth: 0.86
+    width: 0.38
+    label_dx: 30
+    label_dy: 45
+    fallback_x: 78.00
+    fallback_y: 58.56
   biohybrid:
-    label: "Restoring a neural loop"
-    region: influencing
-    x: 1.5
-    z: 0.15
+    number: 5
+    label: "Biohybrid hippocampal loop"
+    region: how
+    x: 1.65
+    z: 0.05
     depth: 1.02
-    width: 0.48
+    width: 0.44
     label_dx: 35
     label_dy: -30
-    fallback_x: 66.38
-    fallback_y: 45.07
-  vns:
-    label: "Vagus nerve stimulation"
-    region: influencing
-    x: 1.55
-    z: 1.5
-    depth: 0.63
-    width: 0.3
-    secondary: true
-    label_dx: 30
-    label_dy: 43
-    fallback_x: 77.21
-    fallback_y: 55.64
-  ca3:
-    label: "The timing of CA3 activity"
-    region: recreating
-    x: -0.5
-    z: 0.95
-    depth: 0.86
-    width: 0.45
-    label_dx: -27
+    fallback_x: 67.25
+    fallback_y: 43.44
+  reservoir:
+    number: 6
+    label: "Reservoir-generated stimulation"
+    region: how
+    x: 0.8
+    z: -1.2
+    depth: 0.92
+    width: 0.4
+    label_dx: 20
+    label_dy: -30
+    fallback_x: 51.42
+    fallback_y: 37.42
+  tsg-ddt:
+    number: 7
+    label: "Synthetic neural time series"
+    region: how
+    x: 0.1
+    z: 1.15
+    depth: 0.78
+    width: 0.37
+    label_dx: -25
     label_dy: 45
-    fallback_x: 49.61
-    fallback_y: 66.09
+    fallback_x: 58.17
+    fallback_y: 62.40
 
-# These are editorial links through shared questions and experimental subjects.
-# They do not assert citation relationships, shared datasets or measured similarity.
-# The labels use the published titles and summaries in publications.yml.
+# Editorial links identify shared questions or methods, not citation relationships,
+# shared datasets, measured similarity, or evaluated online stimulation timing.
 connections:
+  - a: segmentation
+    b: bidirectional
+    theme: "Detecting epileptiform events"
+  - a: segmentation
+    b: transformer-mea
+    theme: "Identifying temporal structure in MEA recordings"
+  - a: transformer-mea
+    b: tsg-ddt
+    theme: "Transformer models of MEA time series"
   - a: reservoir
     b: ca3
     theme: "Hippocampal timing in stimulation"
@@ -95,11 +139,8 @@ connections:
     b: biohybrid
     theme: "Hippocampal activity guiding intervention"
   - a: biohybrid
-    b: segmentation
-    theme: "Epileptiform activity in brain slices"
-  - a: biohybrid
     b: ca3
     theme: "Hippocampal dynamics in seizure models"
-  - a: reservoir
-    b: vns
-    theme: "Tools for experimental neuromodulation"
+  - a: tsg-ddt
+    b: reservoir
+    theme: "Generating brain-inspired stimulation signals"

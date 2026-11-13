@@ -88,6 +88,19 @@ process.stdout.write(JSON.stringify({svg: markup.join('\n          '), coordinat
 def main():
     config_text = CONFIG_PATH.read_text()
     config = yaml.safe_load(config_text)
+    publications = yaml.safe_load((ROOT / "_data/publications.yml").read_text())
+    publication_ids = {paper["id"] for paper in publications}
+    mapped_ids = set(config["papers"])
+    if not mapped_ids <= publication_ids:
+        raise ValueError(f"Mapped papers are missing publication metadata: {sorted(mapped_ids - publication_ids)}")
+    if sorted(paper["number"] for paper in config["papers"].values()) != list(range(1, len(mapped_ids) + 1)):
+        raise ValueError("Mapped paper numbers must form one consecutive sequence")
+    for paper in config["papers"].values():
+        region = config["regions"][paper["region"]]
+        if region.get("status") == "Work in progress":
+            raise ValueError("A work-in-progress direction must not create a paper basin")
+    if any(edge["a"] not in mapped_ids or edge["b"] not in mapped_ids for edge in config["connections"]):
+        raise ValueError("Every connection must link two mapped publications")
     result = subprocess.run(
         ["node", "-e", EXPORT],
         cwd=ROOT,
