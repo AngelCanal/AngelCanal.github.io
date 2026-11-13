@@ -1,0 +1,10 @@
+---
+layout: default
+---
+<article class="article wrap">
+  <a class="text-link article-back" href="{{ '/' | relative_url }}#research">← Back to the portfolio</a>
+  <header class="article-header"><p class="eyebrow">{{ page.kicker | default: page.kind | escape }}{% if page.example %}<span class="example-tag">Illustrative example</span>{% endif %}</p><h1>{{ page.title | escape }}</h1><p class="article-summary">{{ page.summary | escape }}</p></header>
+  {% if page.figure %}<figure class="article-figure"><svg class="project-drawing" data-drawing="{{ page.figure }}" viewBox="0 0 540 340" role="img" aria-label="{{ page.figure_alt | escape }}"><path d="M30 170 Q150 60 270 170 T510 170" fill="none" stroke="currentColor"/></svg><figcaption>{{ page.figure_label | escape }}</figcaption></figure>{% endif %}
+  <div class="prose">{{ content }}</div>
+</article>
+

@@ -1,0 +1,22 @@
+# Preferred name and research areas confirmed by the Scholar PDF you supplied.
+# Institutional research profile checked 2026-11-13:
+# https://www.gla.ac.uk/pgrs/angelcanalalonso/
+# The institutional profile links ORCID 0000-0002-4254-5944.
+# Dialnet links the same person to the exact Scholar identifier supplied by you:
+# https://dialnet.unirioja.es/servlet/autor?codigo=5263999
+# Research wording below is a draft paraphrase for your review, not a direct quote.
+name: "Ángel Canal-Alonso"
+given_name: "Ángel"
+family_name: "Canal-Alonso"
+role: "Postgraduate researcher · University of Glasgow"
+intro: "I study biomimetic neuromodulation, exploring how the timing of brain activity can inform stimulation for epilepsy."
+about: "At the University of Glasgow's Microelectronics Lab, my research brings together AI, dynamical systems, and neural engineering. I work on generating brain-inspired signals for neuromodulation and on bioactive, adaptive coatings for neural probes."
+about_note: "My work connects computational models with in vitro experiments and the materials used at the interface between devices and living tissue."
+github: "https://github.com/AngelCanal"
+# No public email or CV is selected yet. Empty values hide these links.
+# Add the actual CV file before setting its path.
+email: ""
+cv: ""
+scholar: "https://scholar.google.es/citations?user=1Ms-s3IAAAAJ&hl=es"
+orcid: "https://orcid.org/0000-0002-4254-5944"
+

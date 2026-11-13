@@ -1,0 +1,40 @@
+title: Ángel Canal-Alonso
+description: "Computational neuroscience, biomimetic neuromodulation, and neural engineering. Research by Ángel Canal-Alonso at the University of Glasgow."
+url: "https://acanal.me"
+baseurl: ""
+lang: en
+markdown: kramdown
+permalink: pretty
+timezone: Europe/Berlin
+# Keep true until the biography, research summaries, and design have been reviewed.
+demo_mode: true
+show_notes: false
+# manuscript, signal, or atlas
+design: manuscript
+collections:
+  projects:
+    output: true
+    permalink: /research/:name/
+  notes:
+    output: true
+    permalink: /notes/:name/
+defaults:
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: article
+  - scope:
+      path: ""
+      type: notes
+    values:
+      layout: article
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - design
+  - scripts
+  - node_modules
+
