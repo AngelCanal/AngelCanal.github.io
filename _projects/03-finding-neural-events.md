@@ -2,6 +2,7 @@
 title: "Finding events in neural recordings."
 kicker: "Signal analysis / PLOS ONE, 2025"
 order: 3
+landscape_id: segmentation
 example: false
 figure: traces
 figure_alt: "Synthetic signal traces used to illustrate temporal structure, not experimental neural recordings"

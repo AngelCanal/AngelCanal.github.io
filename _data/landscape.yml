@@ -1,0 +1,100 @@
+# An authored navigation map. Coordinates, height and proximity are not measurements.
+# Publication metadata lives only in publications.yml; these keys refer to paper.id.
+regions:
+  reading:
+    label: "Reading neural activity"
+    short_label: "Reading"
+    x: -2.1
+    z: -1.65
+    fallback_x: 16.89
+    fallback_y: 25.32
+  recreating:
+    label: "Recreating neural dynamics"
+    short_label: "Recreating"
+    x: 0.1
+    z: -1.85
+    fallback_x: 41.34
+    fallback_y: 17.74
+  influencing:
+    label: "Influencing neural activity"
+    short_label: "Influencing"
+    x: 2.25
+    z: 0.8
+    fallback_x: 79.98
+    fallback_y: 29.43
+
+papers:
+  reservoir:
+    label: "Brain-inspired stimulation"
+    region: recreating
+    x: 0.15
+    z: -0.9
+    depth: 0.92
+    width: 0.46
+    label_dx: 5
+    label_dy: -27
+    fallback_x: 46.92
+    fallback_y: 42.61
+  segmentation:
+    label: "Finding epileptiform events"
+    region: reading
+    x: -1.85
+    z: -0.55
+    depth: 0.83
+    width: 0.43
+    label_dx: -12
+    label_dy: -30
+    fallback_x: 26.30
+    fallback_y: 55.80
+  biohybrid:
+    label: "Restoring a neural loop"
+    region: influencing
+    x: 1.5
+    z: 0.15
+    depth: 1.02
+    width: 0.48
+    label_dx: 35
+    label_dy: -30
+    fallback_x: 66.38
+    fallback_y: 45.07
+  vns:
+    label: "Vagus nerve stimulation"
+    region: influencing
+    x: 1.55
+    z: 1.5
+    depth: 0.63
+    width: 0.3
+    secondary: true
+    label_dx: 30
+    label_dy: 43
+    fallback_x: 77.21
+    fallback_y: 55.64
+  ca3:
+    label: "The timing of CA3 activity"
+    region: recreating
+    x: -0.5
+    z: 0.95
+    depth: 0.86
+    width: 0.45
+    label_dx: -27
+    label_dy: 45
+    fallback_x: 49.61
+    fallback_y: 66.09
+
+# These are editorial links through shared research themes, not citation edges.
+connections:
+  - a: reservoir
+    b: ca3
+    theme: "Temporal patterns"
+  - a: reservoir
+    b: biohybrid
+    theme: "Hippocampal activity"
+  - a: biohybrid
+    b: segmentation
+    theme: "Epileptiform recordings"
+  - a: biohybrid
+    b: ca3
+    theme: "Hippocampal circuits"
+  - a: reservoir
+    b: vns
+    theme: "Stimulation design"

@@ -9,6 +9,7 @@
 # Full published PDF, including authors and data availability:
 # https://eprints.gla.ac.uk/392738/1/392738.pdf
 - title: "Minimal reservoir computing generates hippocampal-inspired stimulation for open-loop modulation of cortical networks in vitro"
+  id: reservoir
   authors: "Ángel Canal-Alonso, Adam Armada-Moreira, Alessio Di Clemente, María Cerezo-Sánchez, Antonia Pavlidou, Danial Kiamarsi, Michele Giugliano, Hadi Heidari"
   venue: "Brain Stimulation, 19(5), 103188"
   year: 2026
@@ -21,6 +22,7 @@
 # Use the publisher's author list. The editor is not an author.
 # Data link is the repository named in the article's Data Availability statement.
 - title: "Time series segmentation for recognition of epileptiform patterns recorded via microelectrode arrays in vitro"
+  id: segmentation
   authors: "Gabriel Galeote-Checa, Gabriella Panuccio, Angel Canal-Alonso, Bernabe Linares-Barranco, Teresa Serrano-Gotarredona"
   venue: "PLOS ONE, 20(1), e0309550"
   year: 2025
@@ -37,6 +39,7 @@
 # https://iopscience.iop.org/article/10.1088/1741-2552/ace931/pdf
 # https://cordis.europa.eu/project/id/824164/results
 - title: "Biohybrid restoration of the hippocampal loop re-establishes the non-seizing state in an in vitro model of limbic seizures"
+  id: biohybrid
   authors: "Davide Caron, Stefano Buccelli, Angel Canal-Alonso, Javad Farsani, Giacomo Pruzzo, Bernabé Linares Barranco, Juan Manuel Corchado, Michela Chiappalone, Gabriella Panuccio"
   venue: "Journal of Neural Engineering, 20(4), 046021"
   year: 2023
@@ -48,6 +51,7 @@
 # Sources: https://pmc.ncbi.nlm.nih.gov/articles/PMC9168444/
 # https://pubmed.ncbi.nlm.nih.gov/35658680/
 - title: "An affordable implantable vagus nerve stimulator system for use in animal research"
+  id: vns
   authors: "Ángel Canal-Alonso, Roberto Casado-Vara, Orlando Castellano, Jorge Herrera-Santos, Jaime Gonçalves, Sergio Màrquez-Sànchez, Jesús María Gonçalves, Juan Manuel Corchado"
   venue: "Philosophical Transactions of the Royal Society A, 380(2228), 20210010"
   year: 2022
@@ -58,6 +62,7 @@
 
 # Source: https://www.mdpi.com/2079-7737/11/3/371
 - title: "Mimicking CA3 Temporal Dynamics Controls Limbic Ictogenesis"
+  id: ca3
   authors: "Davide Caron, Ángel Canal-Alonso, Gabriella Panuccio"
   venue: "Biology, 11(3), 371"
   year: 2022

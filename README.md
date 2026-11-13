@@ -10,7 +10,7 @@ The site contains three research summaries and five selected published papers, c
 
 The optional `design/acanal-design-preview.html` is a self-contained preview that opens directly in a browser. Download it before opening it; GitHub's file view displays its source. The `design` folder is excluded from the Jekyll output, so committing the preview does not add it to the published website.
 
-The homepage has an animated, synthetic figure with a pause control and support for reduced-motion preferences. Figures on the individual research pages are static conceptual illustrations. They are not experimental recordings, anatomical maps, or figures from the papers. Their captions state this explicitly.
+The Observatory homepage follows model-generated multichannel activity into a reconstructed trajectory, then lets visitors apply a brief input. A separate three-dimensional research terrain links the selected papers through shared questions. Motion can be paused and reduced-motion preferences are respected. Figures on the individual research pages remain static conceptual illustrations, with their provenance in the captions.
 
 The configuration currently includes:
 
@@ -22,21 +22,54 @@ design: manuscript
 
 `demo_mode: true` displays a content-review banner. Change it to `false` after reviewing the biography, summaries, links, and design. This setting controls the banner; it does not make a deployed site private.
 
-### Choose the design
+### Observatory, selected
 
-Use the preview's controls to compare the treatments. Set `design` in `_config.yml` to the one you want to publish.
+The selected direction retains the dark Observatory palette and editorial layout. On a sufficiently tall desktop, Figure 1 remains alongside the reading sequence. Scrolling introduces the signals, their reconstruction, and the stimulation interaction. The three stage buttons also work directly. Compact layouts use those buttons with the figure in normal page flow.
 
-| Design name | Configuration value | Direction |
-| --- | --- | --- |
-| Observatory | `manuscript` | Editorial typography and a slowly changing figure. This is the current default. |
-| Signal room | `signal` | A wider signal display with an instrument-like layout. |
-| Research atlas | `atlas` | A spatial map whose nodes link to sections of the site. |
+The paper terrain has five basins. Selecting a marker reveals the full citation, a short account of the study, and related questions. Paper links are ordinary HTML. The map is an authored navigation device; distance, height and basin depth are not measurements of similarity, scientific merit or clinical effectiveness.
 
-The atlas is navigation, not a diagram claiming scientific relationships between the topics.
+### Figure 1: scientific construction
+
+`assets/js/kuramoto.js` implements a seeded, reproducible Kuramoto phase-oscillator network:
+
+```text
+dθ_i/dt = ω_i + (K/N) Σ_j sin(θ_j − θ_i)
+          + A e(t) sin(φ_i(t) − θ_i)
+```
+
+The final term exists only during an illustrative input. The network has 16 heterogeneous oscillators, mean frequency 1.35 Hz, and coupling K = 2.4 per model second. RK4 integrates at 120 Hz; observations are recorded at 30 Hz. Model time advances at half real-time speed in the animated figure.
+
+Six channels are weighted observations of `sin(θ_i) + 0.18 sin(2θ_i)`. Each channel contributes its current value and values delayed by 0.133, 0.267 and 0.400 model seconds. The resulting 24-dimensional vector is standardized and projected with one fixed PCA basis trained on a reference simulation containing baseline, inputs and recovery. The three displayed components explain approximately 83.4% of that reference variance. This is a three-dimensional view of a reconstruction, not a guarantee that three coordinates embed the complete network state.
+
+The input has a 1.6-model-second sine-squared envelope and a sinusoidal phase response. Four subgroups receive different target phases. The input changes the actual differential equations; coupling continues throughout. A six-second cooldown after the input allows the subsequent evolution to remain visible. The original scale and PCA basis are retained. The gold trace segments correspond to samples recorded during the input; a faint pre-input trajectory remains for comparison.
+
+The phase-only model illustrates coordination and transient response. It has no independent amplitude variable, so the figure makes no claim of a single-oscillator amplitude Hopf bifurcation. It is not fitted to neural recordings or validated as a seizure or treatment model. For reduced motion or paused motion, the pulse produces a still snapshot at 1.2 model seconds; Reset restores the exact initial history.
+
+Scientific references: [Kuramoto, 1975](https://doi.org/10.1007/BFb0013365), [Deyle and Sugihara, 2011](https://doi.org/10.1371/journal.pone.0018295), and [Ko and Ermentrout, 2009](https://doi.org/10.1103/PhysRevE.79.016211). All selected numerical settings are illustrative.
+
+Run the numerical checks without installing dependencies:
+
+```bash
+node scripts/check-kuramoto.cjs
+```
+
+The checks independently reconstruct plotted points from the displayed channel samples, exercise the pulse and reset, compare different animation frame schedules, and test a bounded simulation with repeated inputs. Regenerate the static Figure 1 fallback with:
+
+```bash
+node scripts/export-kuramoto-figure.cjs
+```
+
+Regenerate the research terrain fallback after changing its geometry or paper positions:
+
+```bash
+python scripts/export-landscape-figure.py
+```
+
+This development-only exporter requires Node.js and Python with PyYAML. It reuses the live terrain mathematics, checks each local minimum, and updates the fallback SVG and marker coordinates. The published website has no Python dependency.
 
 ### Check the Jekyll build
 
-The workflow in `.github/workflows/check.yml` runs on pull requests, pushes to `main`, and manual dispatch. It builds the site using the GitHub Pages Jekyll environment, checks key generated files, and uploads a `jekyll-site-preview` artifact. It does not deploy the website.
+The workflow in `.github/workflows/check.yml` runs on pull requests, pushes to `main`, and manual dispatch. It first checks the numerical model, builds the site using the GitHub Pages Jekyll environment, checks key generated files, and uploads a `jekyll-site-preview` artifact. It does not deploy the website.
 
 Open the pull request's **Checks** tab or the repository's **Actions** tab for the current result. A successful run verifies that the committed source builds and passes the output checks. Review the generated site in a browser as well to assess the layout and interactions. The standalone preview supports design review; the workflow checks the actual publishing source.
 
@@ -46,13 +79,17 @@ Open the pull request's **Checks** tab or the repository's **Actions** tab for t
 | --- | --- |
 | `_config.yml` | Domain, review banner, selected design, and visibility of the notes section. |
 | `_data/profile.yml` | Name, introduction, affiliation, biography, and public links. |
-| `_data/publications.yml` | Selected papers, author lists, summaries, and paper/code/data links. |
+| `_data/publications.yml` | Selected papers, stable IDs, author lists, summaries, and paper/code/data links. |
+| `_data/landscape.yml` | Paper labels, basin positions, research regions, and the meaning of each connection. |
 | `_projects/` | Research summaries and future project pages. |
 | `_notes/` | Optional research or personal notes. |
 | `_layouts/default.html` | Shared navigation, page structure, and footer. |
 | `_layouts/article.html` | Project and note page layout. |
 | `assets/css/site.css` | Colors, type, spacing, and responsive layout. |
-| `assets/js/site.js` | Homepage motion, figure drawing, and interactions. |
+| `assets/js/site.js` | Reconstruction drawing, scroll sequence, and interaction controls. |
+| `assets/js/kuramoto.js` | The scientific generator, observations, delay coordinates, and fixed projection. |
+| `assets/js/landscape.js` | Terrain geometry, paper selection, and label placement. |
+| `assets/css/landscape.css` | Terrain layout, paper labels, and detail panel. |
 | `CNAME` | The custom domain used by branch-based Pages publishing. |
 
 Everyday updates belong in the YAML data and Markdown pages. You do not need to edit animation code to add a paper.
@@ -70,6 +107,7 @@ The publication list is a selection, not a complete bibliography. It uses the pu
 To add a publication, copy an entry in `_data/publications.yml` and preserve these fields:
 
 ```yaml
+id: my-paper
 title: "Exact paper title"
 authors: "Authors in publication order"
 venue: "Journal or conference, volume and article number"
@@ -80,7 +118,7 @@ code: ""
 data: ""
 ```
 
-Entries are displayed in file order. Leave unavailable links empty. YAML uses indentation, so keep spaces aligned and quote text containing a colon.
+Entries are displayed in file order. Give each paper a unique `id`; add a matching entry in `_data/landscape.yml` if it should appear on the terrain. Optional `landscape_id` front matter on a project links its scroll position to a paper marker. Leave unavailable links empty. YAML uses indentation, so keep spaces aligned and quote text containing a colon.
 
 For another project, copy a Markdown file in `_projects/`, replace its front matter and body, and set its `order`. Front matter is the YAML block between the two `---` lines. Keep the fields used by the existing pages. Explain the question and approach, then link to the work. Distinguish conceptual illustrations from research data.
 
@@ -171,4 +209,4 @@ The included `Gemfile` uses the GitHub Pages dependencies and `webrick`. The off
 
 Research sources are linked in the project pages and recorded in comments beside the publication entries. The official GitHub documentation above was checked on **2026-11-13**.
 
-The remaining personal choices are the design treatment, biography wording, public email, CV, and whether to publish notes. Registrar-specific DNS instructions can be tailored once the provider is known.
+The remaining personal choices are biography wording, public email, CV, and whether to publish notes. Observatory, the Kuramoto generator, and the selected papers have been chosen. Registrar-specific DNS instructions can be tailored once the provider is known.

@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - name: Verify the Kuramoto reconstruction and intervention
+        run: node scripts/check-kuramoto.cjs
       - name: Build with the GitHub Pages Jekyll environment
         uses: actions/jekyll-build-pages@v1
         with:
@@ -24,6 +26,10 @@ jobs:
           test -s _site/index.html
           test -s _site/assets/css/site.css
           test -s _site/assets/js/site.js
+          test -s _site/assets/js/kuramoto.js
+          test -s _site/assets/js/landscape.js
+          test -s _site/assets/css/landscape.css
+          test -s _site/assets/figures/kuramoto-static.svg
           test -s _site/CNAME
           test -s _site/research/01-a-question-made-visible/index.html
           test -s _site/research/02-a-different-view/index.html
