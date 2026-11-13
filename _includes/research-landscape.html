@@ -1,12 +1,13 @@
 {% assign landscape = site.data.landscape %}
-<figure class="research-landscape" data-research-landscape aria-labelledby="landscape-figure-title" aria-describedby="landscape-caption">
+<figure class="research-landscape" data-research-landscape aria-labelledby="landscape-figure-title" aria-describedby="landscape-guide landscape-caption">
   <div class="landscape-topline">
     <div><span class="landscape-figure-number">Fig. 02</span><span id="landscape-figure-title">A landscape of connected questions</span></div>
     <span class="landscape-count">{{ site.data.publications.size | prepend: '0' }} selected studies</span>
   </div>
 
-  <ul class="landscape-legend" aria-label="Research themes">
-    {% for region in landscape.regions %}<li><span class="landscape-legend-dot landscape-legend-dot--{{ region[0] }}" aria-hidden="true"></span>{{ region[1].label | escape }}</li>{% endfor %}
+  <p class="landscape-guide" id="landscape-guide">Each region groups related research questions. Select a study to see the shared topics behind its connections.</p>
+  <ul class="landscape-legend" aria-label="Research questions grouped by region">
+    {% for region in landscape.regions %}<li><span class="landscape-legend-dot landscape-legend-dot--{{ region[0] }}" aria-hidden="true"></span><span><span class="landscape-legend-name">{{ region[1].label | escape }}</span><span class="landscape-legend-question">{{ region[1].question | escape }}</span></span></li>{% endfor %}
   </ul>
 
   <div class="landscape-composition">
@@ -750,14 +751,13 @@
           {% for paper in site.data.publications %}
           {% assign node = landscape.papers[paper.id] %}
           {% if node %}
-          <a class="landscape-marker{% if node.secondary %} landscape-marker--secondary{% endif %}{% if forloop.first %} is-active{% endif %}" href="#landscape-paper-{{ paper.id }}" data-landscape-marker="{{ paper.id }}" style="left: {{ node.fallback_x }}%; top: {{ node.fallback_y }}%; --label-x: {{ node.label_dx }}px; --label-y: {{ node.label_dy }}px;" aria-label="{{ node.label | escape }}, {{ paper.year }}. Explore this study" aria-controls="landscape-paper-{{ paper.id }}"{% if forloop.first %} aria-current="true"{% endif %}>
+          <a class="landscape-marker{% if node.secondary %} landscape-marker--secondary{% endif %}{% if forloop.first %} is-active{% endif %}" href="#landscape-paper-{{ paper.id }}" data-landscape-marker="{{ paper.id }}" style="left: {{ node.fallback_x }}%; top: {{ node.fallback_y }}%; --label-x: {{ node.label_dx }}px; --label-y: {{ node.label_dy }}px;" aria-label="Study {{ forloop.index | prepend: '0' }}. {{ node.label | escape }}, {{ paper.year }}. Show paper details and connections" aria-controls="landscape-paper-{{ paper.id }}"{% if forloop.first %} aria-current="true"{% endif %}>
             <span class="landscape-marker-pin" aria-hidden="true"></span>
             <span class="landscape-marker-label"><span class="landscape-marker-number">{{ forloop.index | prepend: '0' }}</span><span class="landscape-marker-name">{{ node.label | escape }}</span><span class="landscape-marker-year">{{ paper.year }}</span></span>
           </a>
           {% endif %}
           {% endfor %}
         </div>
-        <span class="landscape-reference" aria-hidden="true">ac / research space</span>
       </div>
       <div class="landscape-view-footer"><p>Select a basin to explore the study.</p><button class="landscape-reset" type="button" data-landscape-reset hidden>Reset view <span aria-hidden="true">↺</span></button></div>
     </div>
@@ -774,7 +774,7 @@
         <p class="landscape-detail-summary">{{ paper.summary | escape }}</p>
         <div class="landscape-detail-links">{% if paper.paper and paper.paper != '' %}<a href="{{ paper.paper | escape }}">Read paper <span aria-hidden="true">↗</span></a>{% endif %}{% if paper.code and paper.code != '' %}<a href="{{ paper.code | escape }}">Code <span aria-hidden="true">↗</span></a>{% endif %}{% if paper.data and paper.data != '' %}<a href="{{ paper.data | escape }}">Data <span aria-hidden="true">↗</span></a>{% endif %}</div>
         <div class="landscape-connections">
-          <p>Shared threads</p>
+          <h4>Connected by</h4>
           <ul>
             {% for connection in landscape.connections %}
             {% assign connected_id = nil %}
@@ -788,7 +788,7 @@
       {% endfor %}
     </div>
   </div>
-  <figcaption class="landscape-caption" id="landscape-caption"><span class="landscape-caption-mark" aria-hidden="true">+</span><p>An authored map of shared questions and methods. Height and distance guide exploration; they are not scientific measurements.</p><a href="#publications">View all selected publications <span aria-hidden="true">↗</span></a></figcaption>
+  <figcaption class="landscape-caption" id="landscape-caption"><span class="landscape-caption-mark" aria-hidden="true">+</span><p>Shared topics guide this conceptual layout. Height and distance do not measure similarity.</p><a href="#publications">View all selected publications <span aria-hidden="true">↗</span></a></figcaption>
   <p class="landscape-sr-only" data-landscape-status aria-live="polite" aria-atomic="true"></p>
   <script type="application/json" data-landscape-config>{{ landscape | jsonify }}</script>
 </figure>

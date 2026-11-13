@@ -4,6 +4,7 @@ regions:
   reading:
     label: "Reading neural activity"
     short_label: "Reading"
+    question: "How can epileptiform events be identified?"
     x: -2.1
     z: -1.65
     fallback_x: 16.89
@@ -11,6 +12,7 @@ regions:
   recreating:
     label: "Recreating neural dynamics"
     short_label: "Recreating"
+    question: "How can neural timing be reproduced?"
     x: 0.1
     z: -1.85
     fallback_x: 41.34
@@ -18,6 +20,7 @@ regions:
   influencing:
     label: "Influencing neural activity"
     short_label: "Influencing"
+    question: "How can neural activity be changed?"
     x: 2.25
     z: 0.8
     fallback_x: 79.98
@@ -81,20 +84,22 @@ papers:
     fallback_x: 49.61
     fallback_y: 66.09
 
-# These are editorial links through shared research themes, not citation edges.
+# These are editorial links through shared questions and experimental subjects.
+# They do not assert citation relationships, shared datasets or measured similarity.
+# The labels use the published titles and summaries in publications.yml.
 connections:
   - a: reservoir
     b: ca3
-    theme: "Temporal patterns"
+    theme: "Hippocampal timing in stimulation"
   - a: reservoir
     b: biohybrid
-    theme: "Hippocampal activity"
+    theme: "Hippocampal activity guiding intervention"
   - a: biohybrid
     b: segmentation
-    theme: "Epileptiform recordings"
+    theme: "Epileptiform activity in brain slices"
   - a: biohybrid
     b: ca3
-    theme: "Hippocampal circuits"
+    theme: "Hippocampal dynamics in seizure models"
   - a: reservoir
     b: vns
-    theme: "Stimulation design"
+    theme: "Tools for experimental neuromodulation"

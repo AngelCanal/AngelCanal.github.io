@@ -6,8 +6,8 @@ lang: en
 markdown: kramdown
 permalink: pretty
 timezone: Europe/Berlin
-# Keep true until the biography, research summaries, and design have been reviewed.
-demo_mode: true
+# The standalone design preview adds its own banner.
+demo_mode: false
 show_notes: false
 # Observatory, the selected design.
 design: manuscript

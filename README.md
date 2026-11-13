@@ -15,18 +15,18 @@ The Observatory homepage follows model-generated multichannel activity into a re
 The configuration currently includes:
 
 ```yaml
-demo_mode: true
+demo_mode: false
 show_notes: false
 design: manuscript
 ```
 
-`demo_mode: true` displays a content-review banner. Change it to `false` after reviewing the biography, summaries, links, and design. This setting controls the banner; it does not make a deployed site private.
+`demo_mode: false` keeps the draft banner out of the public Jekyll build. The standalone preview adds its own design-review banner and `noindex` tag. Its embedded article dialogs also belong only to that preview; the public site opens ordinary research pages. The `design` directory remains excluded from publishing. The banner setting does not control access or privacy.
 
 ### Observatory, selected
 
-The selected direction retains the dark Observatory palette and editorial layout. On a sufficiently tall desktop, Figure 1 remains alongside the reading sequence. Scrolling introduces the signals, their reconstruction, and the stimulation interaction. The three stage buttons also work directly. Compact layouts use those buttons with the figure in normal page flow.
+The selected direction retains the dark Observatory palette and editorial layout. On desktops wider than 900px and taller than 810px, Figure 1 remains alongside a compact reading sequence. Three short steps introduce the signals, their reconstruction, and the stimulation interaction. The primary hero link leads straight to Publications; visitors can also go directly to Research. The three stage buttons work directly. Compact or shorter layouts keep the figure in normal page flow.
 
-The paper terrain has five basins. Selecting a marker reveals the full citation, a short account of the study, and related questions. Paper links are ordinary HTML. The map is an authored navigation device; distance, height and basin depth are not measurements of similarity, scientific merit or clinical effectiveness.
+The paper terrain has five basins. Introductory guidance explains that its regions group related research questions. Each region names a concrete question, and each connection states the shared subject. Selecting a marker reveals the full citation, a short account of the study, and related questions. Paper links are ordinary HTML. The map is an authored navigation device; distance, height and basin depth are not measurements of similarity, scientific merit or clinical effectiveness.
 
 ### Figure 1: scientific construction
 
@@ -96,9 +96,9 @@ Everyday updates belong in the YAML data and Markdown pages. You do not need to 
 
 ### Biography, email, and CV
 
-The current introduction paraphrases the official [University of Glasgow profile](https://www.gla.ac.uk/pgrs/angelcanalalonso/). Review its wording and add the personal details you want to share. The Scholar, ORCID, and GitHub links are populated.
+The current introduction paraphrases the official [University of Glasgow profile](https://www.gla.ac.uk/pgrs/angelcanalalonso/). The biography uses first-person wording and facts already verified in that profile. A research-question aside replaces the oversized monogram. Personal history and a portrait still need user-provided content. The Scholar, ORCID, GitHub, and university-profile links are populated.
 
-`email` and `cv` are deliberately empty and their links stay hidden. Enter your preferred public email when ready. For a CV, add the PDF to an assets folder, then set `cv` to its path. Owning `acanal.me` does not create an email mailbox; an address at that domain requires an email service or forwarding setup.
+`email` and `cv` are deliberately empty and their links stay hidden. Until an email is supplied, navigation says Profiles and the final section says Find me online. Enter your preferred public email to switch those labels to Contact and Get in touch and show a mailto link. For a CV, add the PDF to an assets folder, then set `cv` to its path. Owning `acanal.me` does not create an email mailbox; an address at that domain requires an email service or forwarding setup.
 
 ### Publications and project pages
 

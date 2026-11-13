@@ -214,43 +214,52 @@
 
     function placeLabels() {
       const occupied = [];
-      const ordered = [...markers].sort((a, b) => Number(b.node.id === activeId) - Number(a.node.id === activeId) || Number(a.node.secondary) - Number(b.node.secondary));
+      const regionBoxes = [];
+      const points = new Map(markers.map(marker => [marker.node.id, project(marker.node)]));
+      const ordered = [...markers].sort((a, b) => Number(b.node.id === activeId) - Number(a.node.id === activeId) || Number(Boolean(a.node.secondary)) - Number(Boolean(b.node.secondary)));
       const leaders = [];
-      const compact = width < 420;
-      for (const marker of ordered) {
-        const point = project(marker.node);
+      // Adapt to the terrain's own width, including narrow columns on tablets.
+      stage.classList.toggle('is-compact', width < 550);
+      for (const marker of markers) {
+        const point = points.get(marker.node.id);
         marker.element.style.left = `${point.x.toFixed(1)}px`;
         marker.element.style.top = `${point.y.toFixed(1)}px`;
-        const labelWidth = marker.label.offsetWidth * (marker.node.id === activeId && !compact ? 1.055 : 1);
-        const labelHeight = marker.label.offsetHeight * (marker.node.id === activeId && !compact ? 1.055 : 1);
+      }
+      regions.forEach(element => {
+        const region = config.regions[element.dataset.landscapeRegion];
+        const point = project({x: region.x, y: surface.heightAt(region.x, region.z) + .22, z: region.z});
+        const x = clamp(point.x, 43, width - 43), y = clamp(point.y - 16, 18, height - 36);
+        element.style.left = `${x.toFixed(1)}px`;
+        element.style.top = `${y.toFixed(1)}px`;
+        if (element.offsetWidth) regionBoxes.push({left: x - element.offsetWidth / 2 - 7, right: x + element.offsetWidth / 2 + 7, top: y - element.offsetHeight / 2 - 7, bottom: y + element.offsetHeight / 2 + 7});
+      });
+      const pinBoxes = [...points.values()].map(point => ({left: point.x - 17, right: point.x + 17, top: point.y - 17, bottom: point.y + 17}));
+      const overlapArea = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+      for (const marker of ordered) {
+        const point = points.get(marker.node.id);
+        const labelScale = Number.parseFloat(getComputedStyle(marker.element).getPropertyValue('--label-scale')) || 1;
+        const labelWidth = marker.label.offsetWidth * labelScale;
+        const labelHeight = marker.label.offsetHeight * labelScale;
         const multiplier = clamp(width / 850, .65, 1);
-        const preferred = [marker.node.label_dx * multiplier, marker.node.label_dy * multiplier];
-        const candidates = [preferred, [0, -26], [34, -30], [-34, -30], [0, labelHeight + 28], [labelWidth / 2 + 23, 8], [-labelWidth / 2 - 23, 8], [65, labelHeight + 18], [-65, labelHeight + 18]];
+        const preferred = [marker.node.label_dx * multiplier, marker.node.label_dy > 0 ? labelHeight + 28 : Math.min(-27, marker.node.label_dy * multiplier)];
+        const candidates = [preferred, [0, -30], [0, labelHeight + 30], [45, -30], [-45, -30], [labelWidth / 2 + 28, labelHeight / 2], [-labelWidth / 2 - 28, labelHeight / 2], [65, labelHeight + 28], [-65, labelHeight + 28], [0, -labelHeight - 48], [0, 2 * labelHeight + 48]];
         let best = null;
         for (const [dx, dy] of candidates) {
-          const centreX = clamp(point.x + dx, labelWidth / 2 + 9, width - labelWidth / 2 - 9);
-          const bottom = clamp(point.y + dy, labelHeight + 13, height - 38);
-          const box = {left: centreX - labelWidth / 2 - 4, right: centreX + labelWidth / 2 + 4, top: bottom - labelHeight - 4, bottom: bottom + 4};
+          const centreX = clamp(point.x + dx, labelWidth / 2 + 14, width - labelWidth / 2 - 14);
+          const bottom = clamp(point.y + dy, labelHeight + 16, height - 38);
+          const box = {left: centreX - labelWidth / 2 - 6, right: centreX + labelWidth / 2 + 6, top: bottom - labelHeight - 6, bottom: bottom + 6};
           let score = Math.hypot(centreX - point.x - preferred[0], bottom - point.y - preferred[1]);
-          for (const other of occupied) {
-            const overlapX = Math.max(0, Math.min(box.right, other.right) - Math.max(box.left, other.left));
-            const overlapY = Math.max(0, Math.min(box.bottom, other.bottom) - Math.max(box.top, other.top));
-            score += overlapX * overlapY * 50;
-          }
+          for (const other of occupied) score += overlapArea(box, other) * 120;
+          for (const pin of pinBoxes) score += overlapArea(box, pin) * 180;
+          for (const region of regionBoxes) score += overlapArea(box, region) * 30;
           if (!best || score < best.score) best = {score, box, centreX, bottom};
         }
         marker.element.style.setProperty('--label-x', `${(best.centreX - point.x).toFixed(1)}px`);
         marker.element.style.setProperty('--label-y', `${(best.bottom - point.y).toFixed(1)}px`);
         occupied.push(best.box);
-        const endY = point.y >= best.bottom ? best.bottom + 2 : best.box.top + 3;
-        leaders.push({a: point, b: {x: best.centreX, y: endY}, active: marker.node.id === activeId});
+        const end = {x: clamp(point.x, best.centreX - labelWidth / 2, best.centreX + labelWidth / 2), y: clamp(point.y, best.bottom - labelHeight, best.bottom)};
+        leaders.push({a: point, b: end, active: marker.node.id === activeId});
       }
-      regions.forEach(element => {
-        const region = config.regions[element.dataset.landscapeRegion];
-        const point = project({x: region.x, y: surface.heightAt(region.x, region.z) + .22, z: region.z});
-        element.style.left = `${clamp(point.x, 43, width - 43).toFixed(1)}px`;
-        element.style.top = `${clamp(point.y - 16, 18, height - 36).toFixed(1)}px`;
-      });
       for (const leader of leaders) {
         const distance = Math.hypot(leader.a.x - leader.b.x, leader.a.y - leader.b.y);
         if (distance > 12) stroke([leader.a, leader.b], leader.active ? 'rgba(208,228,176,.55)' : 'rgba(177,196,159,.27)', .7);

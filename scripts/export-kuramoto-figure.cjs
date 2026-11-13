@@ -23,7 +23,7 @@ function line(points, rgb, opacity, strokeWidth) {
   elements.push(`<path d="${d}" fill="none" stroke="${colour(rgb)}" stroke-opacity="${number(opacity)}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>`);
 }
 
-function text(value, x, y, opacity, size = 8) {
+function text(value, x, y, opacity, size = 12) {
   elements.push(`<text x="${number(x)}" y="${number(y)}" fill="${colour(sage)}" fill-opacity="${opacity}" font-family="ui-monospace,monospace" font-size="${size}">${value}</text>`);
 }
 
@@ -59,8 +59,8 @@ for (let channel = 0; channel < 6; channel++) {
   line(visible.map(sample => signalPoint(sample, channel)), channelColours[channel], 0.42, 0.8);
   line(recent.map(sample => signalPoint(sample, channel)), channelColours[channel], 0.95, 1.2);
 }
-text('SAME SIX CHANNELS', 43, 16, 0.48);
-text('RECENT SAMPLES', width - 130, height * 0.30 + 14, 0.55);
+text('SAME SIX CHANNELS', 43, 16, 0.75);
+text('RECENT SAMPLES', width - 130, height * 0.30 + 14, 0.75);
 
 const trajectory = experiment.history.filter(sample => sample.point && sample.t >= latest - 13);
 for (let n = -4; n <= 4; n++) {
@@ -85,7 +85,7 @@ const traceEndpoint = signalPoint(last, 2);
 elements.push('<g stroke-dasharray="2 5">');
 line([traceEndpoint, [width - 17, traceEndpoint[1] + 18], [width - 17, endpoint[1]], endpoint], sage, 0.16, 0.65);
 elements.push('</g>');
-text('A FIXED VIEW OF THE RECONSTRUCTION', 24, height - 21, 0.54);
+text('3D VIEW', 24, height - 21, 0.75);
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" viewBox="0 0 600 500" role="img" aria-labelledby="kuramoto-title kuramoto-description">
   <title id="kuramoto-title">Six simulated signals and their reconstructed trajectory</title>

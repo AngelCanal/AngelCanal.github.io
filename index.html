@@ -6,8 +6,8 @@ layout: default
     <p class="eyebrow"><span class="small-cross" aria-hidden="true">+</span> Neural dynamics · Epilepsy · Neuromodulation</p>
     <h1 id="intro-title">{{ site.data.profile.given_name | escape }}<br><em>{{ site.data.profile.family_name | escape }}.</em></h1>
     <p class="hero-intro">{{ site.data.profile.intro | escape }}</p>
-    <div class="hero-actions"><a class="button" href="#research">Explore the work <span aria-hidden="true">↘</span></a><a class="text-link" href="#about">A little about me <span aria-hidden="true">↗</span></a></div>
-    <div class="hero-meta"><span>{{ site.data.profile.role | escape }}</span><span class="meta-rule"></span><span>Questions welcome.</span></div>
+    <div class="hero-actions"><a class="button" href="#publications">View publications <span aria-hidden="true">↘</span></a><a class="text-link" href="#research">Explore the research <span aria-hidden="true">↗</span></a></div>
+    <div class="hero-meta"><span>{{ site.data.profile.role | escape }}</span></div>
   </div>
   <figure class="hero-figure" aria-labelledby="figure-caption" aria-describedby="figure-description">
     <div class="figure-topline"><span>FIG. 01</span><span class="figure-mode">From activity to structure</span><span class="figure-cross" aria-hidden="true">+</span></div>
@@ -37,15 +37,15 @@ layout: default
     </div></details>
   </figure>
   <div class="journey-copy" aria-label="From signals to a reconstructed space">
-    <article class="journey-step" data-journey-step="0"><p class="eyebrow">01 / Observe</p><h2>Activity unfolds<br><em>across channels.</em></h2><p>A single trace tells part of the story. Follow several together and relationships begin to appear.</p><span class="journey-cue" aria-hidden="true">Follow the highlighted window ↓</span></article>
-    <article class="journey-step" data-journey-step="1"><p class="eyebrow">02 / Reconstruct</p><h2>The same signals.<br><em>A different space.</em></h2><p>Recent history becomes a set of coordinates. The highlighted samples now trace a path through a reconstructed space.</p><span class="journey-cue" aria-hidden="true">Watch a pattern take shape ↓</span></article>
-    <article class="journey-step" data-journey-step="2"><p class="eyebrow">03 / Intervene</p><h2>Change the timing.<br><em>Watch the response.</em></h2><p>Apply a brief input to the network. Its trajectory changes, then evolves under the same coupling as before.</p><p class="journey-connection">A question behind my work in epilepsy: how can the timing of neural activity inform stimulation?</p></article>
+    <article class="journey-step" data-journey-step="0"><p class="eyebrow">01 / Observe</p><h2>Activity across <em>channels.</em></h2><p>Follow the highlighted samples from six interacting signals.</p></article>
+    <article class="journey-step" data-journey-step="1"><p class="eyebrow">02 / Reconstruct</p><h2>The same signals.<br><em>A different space.</em></h2><p>Recent history becomes coordinates. The same samples trace a path through a reconstructed space.</p></article>
+    <article class="journey-step" data-journey-step="2"><p class="eyebrow">03 / Intervene</p><h2>Change the timing.<br><em>Watch the response.</em></h2><p>Apply a brief input, then follow the network's response under its original coupling.</p></article>
   </div>
-  <div class="hero-bottom"><span class="section-index">01 / INTRODUCTION</span><a href="#research">Scroll to explore <span aria-hidden="true">↓</span></a></div>
+  <div class="hero-bottom"><span class="section-index">01 / INTRODUCTION</span><a href="#research">Selected research <span aria-hidden="true">↓</span></a></div>
 </section>
 
 <section class="research-section section wrap" id="research" aria-labelledby="research-title">
-  <div class="section-heading"><div><p class="eyebrow">01 / Selected research</p><h2 id="research-title">Neural dynamics.<br><em>Questions in epilepsy.</em></h2></div><p class="section-deck">Reading activity, recreating its patterns, and exploring ways to influence it.</p></div>
+  <div class="section-heading"><div><p class="eyebrow">01 / Selected studies</p><h2 id="research-title">Research</h2></div><p class="section-deck">My work on neural activity, computational models, and stimulation for epilepsy.</p></div>
   {% include research-landscape.html %}
   <div class="project-list">
     {% assign projects = site.projects | sort: 'order' %}
@@ -59,7 +59,7 @@ layout: default
 </section>
 
 <section class="publications-section section wrap" id="publications" aria-labelledby="publications-title">
-  <div class="section-heading compact"><div><p class="eyebrow">02 / Publications</p><h2 id="publications-title">On the record.</h2></div>{% if site.data.profile.scholar != '' %}<a class="text-link" href="{{ site.data.profile.scholar | escape }}">Google Scholar ↗</a>{% endif %}</div>
+  <div class="section-heading compact"><div><p class="eyebrow">02 / Selected papers</p><h2 id="publications-title">Publications</h2></div>{% if site.data.profile.scholar != '' %}<a class="text-link" href="{{ site.data.profile.scholar | escape }}">Google Scholar ↗</a>{% endif %}</div>
   {% if site.data.publications.size > 0 %}
   <ol class="publications">
     {% for paper in site.data.publications %}
@@ -78,9 +78,9 @@ layout: default
 {% endif %}
 
 <section class="about-section section wrap" id="about" aria-labelledby="about-title">
-  <div class="about-label"><p class="eyebrow">04 / Beyond the work</p><span class="about-monogram" aria-hidden="true">ac<span>.</span></span></div>
-  <div class="about-copy"><h2 id="about-title">At the interface<br><em>of brain & machine.</em></h2><p>{{ site.data.profile.about | escape }}</p><p class="content-note">{{ site.data.profile.about_note | escape }}</p><div class="about-links">{% if site.data.profile.cv != '' %}<a class="text-link" href="{{ site.data.profile.cv | relative_url }}">Download CV ↓</a>{% endif %}<a class="text-link" href="{{ site.data.profile.github | escape }}">GitHub ↗</a>{% if site.data.profile.orcid != '' %}<a class="text-link" href="{{ site.data.profile.orcid | escape }}">ORCID ↗</a>{% endif %}</div></div>
+  <div class="about-label"><p class="eyebrow">04 / A question I work on</p><p class="about-question">{{ site.data.profile.research_question | escape }}</p></div>
+  <div class="about-copy"><h2 id="about-title">About me</h2><p>{{ site.data.profile.about | escape }}</p><p class="content-note">{{ site.data.profile.about_note | escape }}</p><div class="about-links">{% if site.data.profile.cv != '' %}<a class="text-link" href="{{ site.data.profile.cv | relative_url }}">Download CV ↓</a>{% endif %}<a class="text-link" href="{{ site.data.profile.institutional_profile | escape }}">University profile ↗</a>{% if site.data.profile.orcid != '' %}<a class="text-link" href="{{ site.data.profile.orcid | escape }}">ORCID ↗</a>{% endif %}</div></div>
 </section>
 
-<section class="contact-section wrap" id="contact" aria-labelledby="contact-title"><p class="eyebrow">05 / Say hello</p><h2 id="contact-title">Good research starts<br>with a <em>conversation.</em></h2><div class="contact-bottom">{% if site.data.profile.email != '' %}<a class="contact-link" href="mailto:{{ site.data.profile.email | escape }}">{{ site.data.profile.email | escape }} <span aria-hidden="true">↗</span></a>{% else %}<a class="contact-link" href="{{ site.data.profile.scholar | escape }}">Explore my research <span aria-hidden="true">↗</span></a>{% endif %}<a class="text-link" href="{{ site.data.profile.github | escape }}">Find me on GitHub ↗</a></div></section>
+<section class="contact-section wrap" id="contact" aria-labelledby="contact-title"><p class="eyebrow">05 / {% if site.data.profile.email != '' %}Contact{% else %}Profiles{% endif %}</p><h2 id="contact-title">{% if site.data.profile.email != '' %}Get in touch{% else %}Find me online{% endif %}</h2><div class="contact-bottom">{% if site.data.profile.email != '' %}<a class="contact-link" href="mailto:{{ site.data.profile.email | escape }}">{{ site.data.profile.email | escape }} <span aria-hidden="true">↗</span></a>{% else %}<a class="contact-link" href="{{ site.data.profile.scholar | escape }}">Google Scholar <span aria-hidden="true">↗</span></a>{% endif %}<a class="text-link" href="{{ site.data.profile.github | escape }}">GitHub ↗</a></div></section>
 

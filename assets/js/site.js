@@ -92,9 +92,9 @@
   const warm = [226, 178, 119];
   const channelColours = [[203,225,172],[154,198,181],[182,208,189],[222,191,144],[165,189,167],[214,220,186]];
   const text = [
-    'Six signals from one interacting network. The highlighted window contains the samples we will follow into a reconstructed space.',
-    'The same samples, reorganized by their recent history. A fixed three-dimensional view reveals the structure of their trajectory.',
-    'Apply a brief phase-dependent input. Watch its effect in both the original signals and the reconstructed trajectory.'
+    'Six signals from one network. Follow the highlighted samples into a reconstructed space.',
+    'Recent channel history forms a trajectory. The same samples appear in both views.',
+    'Apply a brief input and follow its effect in the signals and reconstructed trajectory.'
   ];
   const labels = ['Six channels. One system.', 'The same activity, reconstructed.', 'A brief input. An evolving response.'];
   const staticMode = () => paused || media.matches;
@@ -111,7 +111,7 @@
   function dot(x, y, radius, colour) {
     ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fillStyle = colour; ctx.fill();
   }
-  function type(value, x, y, colour = 'rgba(190,204,184,.57)', size = 9) {
+  function type(value, x, y, colour = 'rgba(190,204,184,.8)', size = 12) {
     ctx.font = `${size}px ui-monospace, monospace`; ctx.fillStyle = colour; ctx.fillText(value, x, y);
   }
   function projected(point) {
@@ -156,14 +156,14 @@
       const colour = channelColours[channel];
       line(visible.map(sample=>signalPoint(sample,channel,latest,compact)),rgba(colour,lerp(.55,.42,compact)),compact>.8?.8:1.05);
       line(visible.filter(sample=>sample.t>=highlightAt).map(sample=>signalPoint(sample,channel,latest,compact)),rgba(colour,.95),1.2);
-      if(compact < .8) type(`0${channel+1}`,13,baseline+3,rgba(colour,.65),9);
+      if(compact < .8) type(`0${channel+1}`,13,baseline+3,rgba(colour,.8),12);
     }
     if (compact < .5) {
       type('MODEL-GENERATED ACTIVITY',43,32);
-      type('RECENT SAMPLES',Math.max(43,width-141),height-24,rgba(sage,.65),8);
+      type('RECENT SAMPLES',Math.max(43,width-141),height-24,rgba(sage,.8),12);
     } else {
-      type('SAME SIX CHANNELS',43,16,rgba(sage,.48),8);
-      type('RECENT SAMPLES',Math.max(43,width-130),height*.30+14,rgba(sage,.55),8);
+      type('SAME SIX CHANNELS',43,16,rgba(sage,.75),12);
+      type('RECENT SAMPLES',Math.max(43,width-130),height*.30+14,rgba(sage,.75),12);
     }
   }
 
@@ -214,7 +214,7 @@
         ctx.setLineDash([2,5]); line([traceEnd,[width-17,traceEnd[1]+18],[width-17,p[1]],p],rgba(sage,.16),.65); ctx.setLineDash([]);
       }
     }
-    type('A FIXED VIEW OF THE RECONSTRUCTION',24,height-21,rgba(sage,.54),width<400?7:8);
+    type('3D VIEW',24,height-21,rgba(sage,.75),12);
     ctx.restore();
   }
 
@@ -227,10 +227,10 @@
     drawTrajectory(history,latest,blend);
     if(currentStage===2) {
       const state=experiment.state;
-      const x=width-105,y=height-36;
+      const x=width-126,y=height-36;
       line([[x,y],[x+80,y]],rgba(sage,.15),2);
       line([[x,y],[x+80*state.coherence,y]],rgba(sage,.7),2);
-      type('PHASE COHERENCE',x,y-10,rgba(sage,.52),7);
+      type('PHASE COHERENCE',x,y-10,rgba(sage,.75),12);
     }
   }
 
@@ -280,7 +280,7 @@
     draw(); schedule();
   }
   function onScroll() {
-    if(window.innerWidth<=900 || window.innerHeight<=690 || !inView) return;
+    if(window.innerWidth<=900 || window.innerHeight<=810 || !inView) return;
     if(manualScrollY!==null && Math.abs(window.scrollY-manualScrollY)<80) return;
     manualScrollY=null;
     let next=0;
