@@ -81,6 +81,14 @@ The workflow in `.github/workflows/check.yml` runs on pull requests, pushes to `
 
 Open the pull request's **Checks** tab or the repository's **Actions** tab for the current result. A successful run verifies that the committed source builds and passes the output checks. Review the generated site in a browser as well to assess the layout and interactions. The standalone preview supports design review; the workflow checks the actual publishing source.
 
+### Asset versions and Figure 1
+
+Stylesheets and scripts use a shared `?v=` value from [GitHub's build revision](https://jekyll.github.io/github-metadata/site.github/), with [Jekyll's build time](https://jekyllrb.com/docs/variables/#site-variables) as the fallback for local builds. A new release therefore requests new asset URLs automatically. This prevents updated HTML from reusing the old stylesheet and script URLs after deployment; no manual version bump is needed.
+
+This fixes a reproduced failure where the original script expected the removed `#form-control` slider, threw before showing the current controls, and left Figure 1's static fallback visible. The self-contained design preview embeds its styles and scripts, so it did not encounter that mismatch. The Kuramoto model and interaction code are unchanged.
+
+The build check runs `python3 scripts/check-assets.py _site` against every generated HTML page. It verifies that all local styles and scripts share a nonempty build version, that the referenced files exist, and that the deferred scripts retain their dependency order: Kuramoto model, figure controls, then research landscape. If an already-open tab still shows an old page after deployment, reload the page; a hard refresh can also clear an earlier unversioned cache entry.
+
 ### Crawling and machine-readable content
 
 The public site provides these files:
