@@ -2,6 +2,7 @@
 title: "Restoring a neural loop."
 kicker: "Biohybrid circuits / Journal of Neural Engineering, 2023"
 order: 2
+landscape_id: biohybrid
 example: false
 figure: network
 figure_alt: "Synthetic network drawing used as a conceptual illustration of circuit connections, not an anatomical map"

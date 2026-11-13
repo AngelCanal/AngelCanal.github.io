@@ -2,6 +2,7 @@
 title: "Brain-inspired stimulation."
 kicker: "Reservoir computing / Brain Stimulation, 2026"
 order: 1
+landscape_id: reservoir
 example: false
 figure: orbit
 figure_alt: "Synthetic looping trajectory used as a conceptual illustration of dynamical activity, not measured data"

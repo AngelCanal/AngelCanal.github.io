@@ -1,15 +1,15 @@
 title: Ángel Canal-Alonso
-description: "Computational neuroscience, biomimetic neuromodulation, and neural engineering. Research by Ángel Canal-Alonso at the University of Glasgow."
+description: "Where, when and how to stimulate in epilepsy. Ángel Canal-Alonso studies neuromodulation through dynamical systems, modelling and reservoir computing for implantable devices."
 url: "https://acanal.me"
 baseurl: ""
 lang: en
 markdown: kramdown
 permalink: pretty
 timezone: Europe/Berlin
-# Keep true until the biography, research summaries, and design have been reviewed.
-demo_mode: true
+# The standalone design preview adds its own banner.
+demo_mode: false
 show_notes: false
-# manuscript, signal, or atlas
+# Observatory, the selected design.
 design: manuscript
 collections:
   projects:
