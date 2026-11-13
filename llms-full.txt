@@ -1,0 +1,6 @@
+---
+layout: null
+permalink: /llms-full.txt
+sitemap: false
+---
+{% include research-summary.md %}

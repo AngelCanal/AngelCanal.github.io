@@ -1,0 +1,30 @@
+---
+layout: null
+permalink: /llms.txt
+sitemap: false
+---
+# {{ site.data.profile.name }}
+
+> {{ site.description }}
+
+{{ site.data.profile.role }}. This is a personal research portfolio. Where to stimulate is work in progress. When covers event detection and seizure prediction. How covers biohybrid circuits and the design or generation of stimulation patterns, including synthetic neural time series.
+
+The bibliography is selected, with journal articles, conference papers and conference abstracts labelled separately. The interactive figures are conceptual illustrations. The Kuramoto demonstration uses model-generated signals; the research map's height and distance are not scientific measurements.
+
+## Research
+
+- [Research overview and selected publications in Markdown]({{ '/index.md' | absolute_url }}): Research questions, study summaries, complete selected citations, DOI links and available data links, generated from the portfolio's current content.
+- [Interactive portfolio]({{ '/' | absolute_url }}): The visual website, including the reconstruction and stimulation illustration.
+- [Publications]({{ '/#publications' | absolute_url }}): The selected bibliography in HTML.
+
+## Profiles and contact
+
+- [LinkedIn]({{ site.data.profile.linkedin }}): Preferred contact route.
+- [University profile]({{ site.data.profile.institutional_profile }}): Institutional research profile.
+- [ORCID]({{ site.data.profile.orcid }}): Researcher identifier.
+- [Google Scholar]({{ site.data.profile.scholar }}): Publication profile beyond the selection on this website.
+- [GitHub]({{ site.data.profile.github }}): Public code profile.
+
+## Optional
+
+- [Expanded text snapshot]({{ '/llms-full.txt' | absolute_url }}): The same research overview and bibliography as the Markdown version, provided as plain text.
